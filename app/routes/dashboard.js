@@ -123,7 +123,26 @@ dashboard.use(function(req,res,next){
 				}
 				res.json({message:"Post crée"})
 			})
-		});
+		})
+
+	.get(function(req,res){
+		Post.find({createur:req.decoded.id},function(err,posts){
+			if(err){
+				res.send(err)
+				return;
+			}else{
+				res.json(posts);
+			}
+		})
+	});
+
+	dashboard.get('/me',function(req,res){
+
+		res.json(req.decoded);
+
+	});
+
+
 
 
 	return dashboard

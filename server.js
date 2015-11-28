@@ -19,8 +19,8 @@ mongoose.connect(config.database,function(err){
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 app.use(morgan('dev'));
-
-
+//Permet un render de tous les fichiers,dossier css/js dans le dossier public
+app.use(express.static(__dirname+'/public'));
 
 var dashboard = require('./app/routes/dashboard')(app,express);
 app.use('/dashboard',dashboard);
@@ -29,7 +29,7 @@ app.use('/dashboard',dashboard);
 
 
 app.get('*',function(req,res){
-	res.sendFile(__dirname + '/public/vues/index.html')
+	res.sendFile(__dirname + '/public/app/vues/index.html')
 });
 
 app.listen(config.port, function(err){
