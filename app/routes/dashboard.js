@@ -1,4 +1,5 @@
-var Utilisateur = require('../modeles/utilisateur')
+var Utilisateur = require('../modeles/utilisateur');
+var Post = require('../modeles/post');
 
 var config = require('../../config');
 
@@ -8,7 +9,7 @@ var jsonwebtoken= require('jsonwebtoken');
 //fn pour créer le token, cette fn sera utilisée dans la vérification des infos login
 function creerUnBeauToken(utilisateur){
 	var token = jsonwebtoken.sign({
-		_id: utilisateur._id,
+		id: utilisateur._id,
 		nom:utilisateur.nom,
 		pseudo:utilisateur.pseudo
 	},cleSecrete,{
@@ -21,9 +22,9 @@ return token;
 
 module.exports= function(app, express){
 
-	var api=express.Router();
-
-	api.post('/inscription',function(req,res){
+	var dashboard=express.Router();
+//***************************************************PHASE A, avant la connexion
+	dashboard.post('/inscription',function(req,res){
 
 		var utilisateur = new Utilisateur({
 			//body est le bodyParser
@@ -42,7 +43,7 @@ module.exports= function(app, express){
 	});
 
 
-api.get('/utilisateurs',function(req,res){
+dashboard.get('/utilisateurs',function(req,res){
 	//find est une méthode de mongoose
 	Utilisateur.find({},function(err,users){
 		if(err){
@@ -54,7 +55,7 @@ api.get('/utilisateurs',function(req,res){
 });
 
 
-	api.post('/connexion',function(req,res){
+	dashboard.post('/connexion',function(req,res){
 		//findOne trouvera un objet spécifique, findOne ira dans la bdd et cherchera si le user existe ou pas
 		Utilisateur.findOne({
 			pseudo: req.body.pseudo}).select('password').exec(function(err,utilisateur){
@@ -85,9 +86,68 @@ api.get('/utilisateurs',function(req,res){
 
 
 
+	//Verification du token
+dashboard.use(function(req,res,next){
+	console.log('Quelqun sest connecte')
+	var token= req.body.token || req.param('token') || req.headers['x-access-token'];
+	// Verifier si le token existe
+	if(token){
+		jsonwebtoken.verify(token,cleSecrete,function(err,decoded){
+			if(err){
+				res.status(403).send({success:false, message:"Echec d'autentification"})
+			}else{
+				//
+				req.decoded= decoded;
+				next();
+			}
+		})
+	}else{
+		res.status(403).send({success:false,message:"Pas reçu de token"})
+	}
+});
+//***************************************************PHASE B, après la connexion
+
+	//routes multiple (chaining method)
+	dashboard.route('/')
+		.post(function(req,res){
+
+			var post = new Post({
+				//req.decoded.id car après avoir passé le middleware, les infos user se trouvent 100:17
+				createur:req.decoded.id,
+				contenu:req.body.contenu
+			});
+			post.save(function(err){
+				if(err){
+					res.send(err);
+					return;
+				}
+				res.json({message:"Post crée"})
+			})
+		});
 
 
+	return dashboard
 
-	return api
 
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

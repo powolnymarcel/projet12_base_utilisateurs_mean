@@ -22,8 +22,8 @@ app.use(morgan('dev'));
 
 
 
-var api = require('./app/routes/api')(app,express);
-app.use('/api',api);
+var dashboard = require('./app/routes/dashboard')(app,express);
+app.use('/dashboard',dashboard);
 
 
 
