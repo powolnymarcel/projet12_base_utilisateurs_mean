@@ -7,8 +7,20 @@
 	<link rel="stylesheet" href="/app/lib/bootstrap/dist/css/bootstrap.min.css">
 	<link rel="stylesheet" href="/app/style/style.css">
 </head>
-<body>
+<body ng-controller="PrincipalController as principal">
+<section class="container">
+	<nav style="z-index: 999;position: relative">
+		<ul>
+			<a  ui-sref="connexion"><li style="display: inline">Connexion</li></a> -
+			<a  ui-sref="inscription"><li style="display: inline">Inscription</li></a>
+		</ul>
 
+
+		<div ng-if="principal.connecte" class="pull-right"><a ng-click="principal.seDeconnecter()">Deconnexion</a> </div>
+	</nav>
+
+
+</section>
 <div   class="page {{ pageClass }}" ui-view></div>
 
 <script src="/app/lib/jquery/dist/jquery.js"></script>
@@ -18,8 +30,9 @@
 <script src="/app/lib/angular-animate/angular-animate.min.js"></script>
 
 <script src="/app/services/serviceauthentification.js"></script>
+<script src="/app/services/utilisateur.js"></script>
 <script src="/app/controlleurs/principalCtrl.js"></script>
-<script src="/app/controlleurs/inscriptionCtrl.js"></script>
+<script src="/app/controlleurs/utilisateurCtrl.js"></script>
 <script src="/app/controlleurs/dashBoardCtrl.js"></script>
 <script src="/app/app.routes.js"></script>
 

@@ -13,7 +13,7 @@ function creerUnBeauToken(utilisateur){
 		nom:utilisateur.nom,
 		pseudo:utilisateur.pseudo
 	},cleSecrete,{
-		expiresInMinute:1440
+		expiresInMinutes :1440
 	});
 return token;
 
@@ -32,13 +32,17 @@ module.exports= function(app, express){
 			pseudo:req.body.pseudo,
 			password:req.body.password
 		});
+		var token= creerUnBeauToken(utilisateur);
 
 		utilisateur.save(function(err){
 			if(err){
 				res.send(err);
 				return;
 			}
-			res.json({message:'Utilisateur cree'});
+			res.json({
+				success:true,
+				message:'Utilisateur cree',
+			token:token});
 		});
 	});
 
@@ -58,7 +62,7 @@ dashboard.get('/utilisateurs',function(req,res){
 	dashboard.post('/connexion',function(req,res){
 		//findOne trouvera un objet spécifique, findOne ira dans la bdd et cherchera si le user existe ou pas
 		Utilisateur.findOne({
-			pseudo: req.body.pseudo}).select('password').exec(function(err,utilisateur){
+			pseudo: req.body.pseudo}).select('nom pseudo password').exec(function(err,utilisateur){
 			if(err)throw err;
 			//Si l'user n'existe pas on retourne un message
 			if(!utilisateur){
@@ -89,10 +93,10 @@ dashboard.get('/utilisateurs',function(req,res){
 	//Verification du token
 dashboard.use(function(req,res,next){
 	console.log('Quelqun sest connecte');
-	console.log(req.body.token);
 	console.log(req.headers['x-access-token']);
-	
-	var token= req.body.token || req.param('token') || req.headers['x-access-token'];
+
+	var token= req.headers['x-access-token'];
+	//var token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjU2NWE0YzMyY2FlMmJkOWM4OTliYzk0OCIsImlhdCI6MTQ0ODc5OTIyOCwiZXhwIjoxNDQ4ODg1NjI4fQ.EuuUBzlhySDCTgpG04TP5AjFaXlOmLMan0aqMhs2qWs";
 	if(token){
 		jsonwebtoken.verify(token,cleSecrete,function(err,decoded){
 			if(err){
@@ -130,7 +134,7 @@ dashboard.use(function(req,res,next){
 	.get(function(req,res){
 		Post.find({createur:req.decoded.id},function(err,posts){
 			if(err){
-				res.send(err)
+				res.send(err);
 				return;
 			}else{
 				res.json(posts);

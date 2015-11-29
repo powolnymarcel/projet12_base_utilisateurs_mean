@@ -54,11 +54,12 @@ angular.module('serviceAuthentification',[])
 })
 
 //Ce service recuperera le token via la navigateur, on lui donne en parametre l'objet window
-.factory('AuthentificationJetonToken',function($window){
+.factory('AuthentificationJetonToken',function($window,$http){
 
 	var authentificationTokenFactory={};
 	//Methode pour recup le token via le navigateur
 	authentificationTokenFactory.recupererToken=function(){
+
 		return $window.localStorage.getItem(('token'))
 	};
 
@@ -66,7 +67,17 @@ angular.module('serviceAuthentification',[])
 
 	authentificationTokenFactory.assignerToken=function(token){
 		if(token){
-			$window.localStorage.setItem('token',token)
+			$window.localStorage.setItem('token',token);
+			//$http.defaults.headers.common['x-access-token'] = token;
+
+			var config = {headers:  {
+				'x-access-token': token
+			}
+			};
+
+			$http.get("/dashboard", config);
+
+			alert('toktok')
 		}else{
 			$window.localStorage.removeItem('token');
 		}

@@ -4,5 +4,4 @@ angular.module('dashBoardCtrl',[])
 .controller('DashBoardController',function ($scope,$rootScope) {
 	$scope.pageClass = 'page-dashboard';
 
-
 });

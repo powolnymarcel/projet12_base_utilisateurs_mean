@@ -13,7 +13,7 @@ angular.module('Routesdelappli',['ngAnimate', 'ui.router'])
 		.state('inscription', {
 		url: '/inscription',
 		templateUrl: '/app/vues/pages/page-inscription.html',
-		controller: 'InscriptionController'
+		controller: 'UtilisateurControlleur'
 	})
 		.state('dashboardMoi', {
 		url: '/dashboard/moi',
