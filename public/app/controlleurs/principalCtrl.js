@@ -1,9 +1,9 @@
 angular.module('principalCtrl',[])
 
 //Le ctrl permet de manipuler les données et envoyer les données à la vue pour le rendu
-.controller('PrincipalController',function ($rootScope, $location, Authentification) {
+.controller('PrincipalController',function ($scope,$rootScope, $location, Authentification) {
 	var leCtrlFrontPrincipal = this;
-
+	$scope.pageClass = 'page-accueil';
 	//avoir les infos au niveau front si l'user est connecté
 	leCtrlFrontPrincipal.connecte= Authentification.estConnecte();
 	//Dans toutes les requetes on veut verifier l'user
@@ -17,7 +17,7 @@ angular.module('principalCtrl',[])
 				leCtrlFrontPrincipal.utilisateur= data.data;
 			});
 	});
-
+//****************************************************LOG IN
 	//a chaque click sur le bouton submit du form "faireLeLogin()"
 	leCtrlFrontPrincipal.faireLeLogin=function(){
 		leCtrlFrontPrincipal.effectuer = true;
@@ -39,7 +39,7 @@ angular.module('principalCtrl',[])
 				}
 			})
 	};
-
+//****************************************************LOGOUT
 	leCtrlFrontPrincipal.seDeconnecter=function(){
 		//On se deconnecte , sur le serveur on activera "assignerToken" qui activera authentificationTokenFactory.assignerToken
 		//Il y aura une condition si token ou si pas token

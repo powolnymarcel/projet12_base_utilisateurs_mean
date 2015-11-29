@@ -73,7 +73,7 @@ dashboard.get('/utilisateurs',function(req,res){
 				else{
 					//Si c'est correct on crée un jeton(token) (au lieu d'un cookie), on a besoin du module "jsonwebtoken"
 					//le param utilisateur vient du param utilisateur de la ligne 60:76
-					var token= creerUnBeauToken(utilisateur)
+					var token= creerUnBeauToken(utilisateur);
 					res.json({
 						success:true,
 						message:"Connecté avec succes!",
@@ -88,8 +88,13 @@ dashboard.get('/utilisateurs',function(req,res){
 
 	//Verification du token
 dashboard.use(function(req,res,next){
-	console.log('Quelqun sest connecte')
-	var token= req.body.token || req.param('token') || req.headers['x-access-token'];
+	console.log('Quelqun sest connecte');
+	console.log(req.body.token);
+	console.log(req.headers['x-access-token']);
+
+
+	//var token= req.body.token || req.param('token') || req.headers['x-access-token'];
+	var token= "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjU2NWE0YzMyY2FlMmJkOWM4OTliYzk0OCIsImlhdCI6MTQ0ODc1OTIxN30.GaT70nSo0R9jEzgYVqBRQvN3efgCTDERkM3A8lI2E9s";
 	// Verifier si le token existe
 	if(token){
 		jsonwebtoken.verify(token,cleSecrete,function(err,decoded){

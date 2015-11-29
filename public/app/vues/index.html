@@ -1,19 +1,27 @@
 <!doctype html>
 <html lang="fr" ng-app="monApp">
 <head>
+	<base href="/">
 	<meta charset="UTF-8">
 	<title>Document</title>
-	<link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/app/lib/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/app/style/style.css">
 </head>
 <body>
-<section class="container">
-	<h1>Test</h1>
-	{{2+2}}
-</section>
+
+<div   class="page {{ pageClass }}" ui-view></div>
 
 <script src="/app/lib/jquery/dist/jquery.js"></script>
 <script src="/app/lib/bootstrap/dist/js/bootstrap.js"></script>
 <script src="/app/lib/angular/angular.js"></script>
+<script src="/app/lib/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script src="/app/lib/angular-animate/angular-animate.min.js"></script>
+
+<script src="/app/services/serviceauthentification.js"></script>
+<script src="/app/controlleurs/principalCtrl.js"></script>
+<script src="/app/controlleurs/inscriptionCtrl.js"></script>
+<script src="/app/app.routes.js"></script>
+
 <script src="/app/app.js"></script>
 </body>
 </html>

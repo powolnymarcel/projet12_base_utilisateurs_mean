@@ -96,7 +96,7 @@ angular.module('serviceAuthentification',[])
 		}
 	}
 
-	return intercepteurFactory;
+	return intercepteurFactory
 
 
 });
