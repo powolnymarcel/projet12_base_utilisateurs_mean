@@ -16,6 +16,7 @@ angular.module('principalCtrl',[])
 			.then(function(data){
 				leCtrlFrontPrincipal.utilisateur= data.data;
 			});
+
 	});
 //****************************************************LOG IN
 	//a chaque click sur le bouton submit du form "faireLeLogin()"
@@ -33,7 +34,7 @@ angular.module('principalCtrl',[])
 					});
 				//Si le login s'est bien passé on redirgie vers la homepage
 				if(data.success){
-					$location.path('/');
+					$location.path('/fff');
 				}else{
 					leCtrlFrontPrincipal.error= data.message
 				}

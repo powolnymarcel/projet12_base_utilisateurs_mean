@@ -7,11 +7,10 @@ angular.module('serviceAuthentification',[])
 
 //une des méthodes les plus pratique pour appeller les methodes d'API c'est d'utiliser une factory
 //$q est la promesse
-.factory('Authentification',function($http,$q,AuthentificationJetonToken){
+.factory('Authentification',function($http,$q,AuthentificationJetonToken,$location){
 
 	//Toutes les routes d'API qui seront appellées avec http seront placees dans cette variable
 	var authentificationFactory= {};
-
 
 	//Va faire un post sur la route "/dashboard/connexion" sur le serveur et récup les données
 	authentificationFactory.connexion=function(pseudo,password){
@@ -44,7 +43,8 @@ angular.module('serviceAuthentification',[])
 	//Recuperer toutes les infos utilisateur
 	authentificationFactory.recupereUtilisateur=function(){
 		if(AuthentificationJetonToken.recupererToken()){
-			return $http.get('/dashboard/moi')
+			//return $http.get('/dashboard/moi')
+			$location.path('/dashboard/moi');
 		}else{
 			return $q.reject({message : "Utilisateur sans token"})
 		}

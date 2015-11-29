@@ -91,11 +91,8 @@ dashboard.use(function(req,res,next){
 	console.log('Quelqun sest connecte');
 	console.log(req.body.token);
 	console.log(req.headers['x-access-token']);
-
-
-	//var token= req.body.token || req.param('token') || req.headers['x-access-token'];
-	var token= "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjU2NWE0YzMyY2FlMmJkOWM4OTliYzk0OCIsImlhdCI6MTQ0ODc1OTIxN30.GaT70nSo0R9jEzgYVqBRQvN3efgCTDERkM3A8lI2E9s";
-	// Verifier si le token existe
+	
+	var token= req.body.token || req.param('token') || req.headers['x-access-token'];
 	if(token){
 		jsonwebtoken.verify(token,cleSecrete,function(err,decoded){
 			if(err){
@@ -141,7 +138,7 @@ dashboard.use(function(req,res,next){
 		})
 	});
 
-	dashboard.get('/me',function(req,res){
+	dashboard.get('/moi',function(req,res){
 
 		res.json(req.decoded);
 

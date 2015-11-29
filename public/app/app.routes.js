@@ -11,9 +11,14 @@ angular.module('Routesdelappli',['ngAnimate', 'ui.router'])
 			controller: 'PrincipalController'
 		})
 		.state('inscription', {
-		url: '/',
+		url: '/inscription',
 		templateUrl: '/app/vues/pages/page-inscription.html',
 		controller: 'InscriptionController'
+	})
+		.state('dashboardMoi', {
+		url: '/dashboard/moi',
+		templateUrl: '/app/vues/pages/page-dashboard.html',
+		controller: 'DashBoardController', authenticate: true
 	});
 	// Si aucunes routes ne correspond
 	// envoie l'user au formulaire
@@ -21,5 +26,4 @@ angular.module('Routesdelappli',['ngAnimate', 'ui.router'])
 
 // use the HTML5 History API
 	$locationProvider.html5Mode(true);
-
 });
